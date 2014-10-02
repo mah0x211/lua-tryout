@@ -22,7 +22,7 @@ local function getFormats( targets )
     end
     
     fmt = '%%{underline}%f sec%%{reset} ';
-    fmtSuccess = '%%{yellow}%-' .. len .. 's %%{green}SUCCESS %d TRYOUTS%%{reset} ' .. fmt;
+    fmtSuccess = '%%{yellow}%-' .. len .. 's %%{green}SUCCESS %d TEST(s)%%{reset} ' .. fmt;
     fmtFailure = '%%{yellow}%-' .. len .. 's %%{red}FAILURE%%{reset} ' .. fmt .. '\n%%{magenta}%s';
     
     return fmtSuccess, fmtFailure;
@@ -80,7 +80,7 @@ local function runTryFiles()
     print( 
 '==============================================================================' 
     );
-    print( cl( ('%%{cyan}TRYOUT %d FILE(s)\n'):format( #targets ) ) );
+    print( cl( ('%%{cyan}TEST %d FILE(s)\n'):format( #targets ) ) );
     
     sec = gettimeofday();
     for _, name in ipairs( targets ) do
@@ -100,7 +100,7 @@ local function runTryFiles()
             };
             print( cl( fmtSuccess:format( file, ntry, cost ) ) );
         else
-            err = ('succeeded tryouts: %d\n%s'):format( ntry, err );
+            err = ('pass: %d test(s)\n%s'):format( ntry, err );
             err = addPadding( err );
             failure[#failure+1] = err;
             print( cl( fmtFailure:format( file, cost, err ) ) );
@@ -112,9 +112,9 @@ local function runTryFiles()
 '==============================================================================' 
     );
     print( cl( ('%%{cyan}TIME: %f sec, TOTAL COST: %f sec\n'):format( sec, costAll ) ) );
-    print( cl( ('%%{green}SUCCEEDED TRYOUTS: %d'):format( ntryAll ) ) );
-    print( cl( ('%%{green}SUCCEEDED FILE(s): %d'):format( #success ) ) );
-    print( cl( ('%%{red}FAILURE          : %d'):format( #failure ) ) );
+    print( cl( ('%%{green}PASS   : %d TEST(s)'):format( ntryAll ) ) );
+    print( cl( ('%%{green}SUCCESS: %d FILE(s)'):format( #success ) ) );
+    print( cl( ('%%{red}FAILURE: %d FILE(s)'):format( #failure ) ) );
     print( concat( failure, '\n' ) );
     
     -- print perf rank
@@ -126,7 +126,10 @@ local function runTryFiles()
 '------------------------------------------------------------------------------' 
         );
         for _, v in ipairs( success ) do
-            print( cl( ('%%{green}%-10f sec %%{reset}| %%{yellow}%s %d TRYOUTS'):format( v.cost, v.file, v.ntry ) ) );
+            print(cl(
+                ('%%{green}%-10f sec, %d TEST(s)%%{reset} | %%{yellow}%s')
+                :format( v.cost, v.ntry, v.file )
+            ));
         end
 
     end
