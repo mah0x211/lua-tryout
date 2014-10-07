@@ -19,7 +19,7 @@ local function printHook( ... )
         PRINT_FN( ... );
         logstack[#logstack+1] = {
             info = info,
-            data = data,
+            date = date,
             log = {...}
         };
     end
@@ -41,7 +41,7 @@ local function printf( fmt, ... )
         PRINT_FN( fmt );
         logstack[#logstack+1] = {
             info = info,
-            data = data,
+            date = date,
             log = fmt
         };
     end
