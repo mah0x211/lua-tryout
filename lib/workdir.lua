@@ -11,6 +11,8 @@ end
 local function chdir()
     local rpath = raise.ifNil( path.exists( arg[1] ) ); 
     local stat = raise.ifNil( path.stat( rpath ) );
+    local name;
+    
     if path.isReg( stat.mode ) then
         raise.ifNil( rpath:find('^.+_try[.]lua$' ), 'invalid target file' );
         printf( '%s: %s', label('TARGET FILE'), rpath );
