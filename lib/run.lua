@@ -1,12 +1,9 @@
-local util = require('util');
-local inspect = util.inspect;
 local cl = require('ansicolors');
 local path = require('path');
 local process = require('process');
 local gettimeofday = process.gettimeofday;
 local sort = table.sort;
 local concat = table.concat;
-local CWD = process.getcwd();
 
 local function getFormats( targets )
     local fmtSuccess, fmtFailure;

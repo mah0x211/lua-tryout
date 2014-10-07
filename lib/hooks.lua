@@ -1,6 +1,5 @@
 local inspect = require('util').inspect;
 local path = require('path');
-local basename = path.basename;
 local MODULE_DIR = path.dirname( debug.getinfo( 1 ).short_src );
 local PRINT_FN = print;
 local logstack = {};
