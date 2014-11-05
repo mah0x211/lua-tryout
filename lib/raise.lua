@@ -85,6 +85,15 @@ local function ifTrue( val, msg, ... )
 end
 
 
+local function ifNotFalse( val, msg, ... )
+    NRAISE = NRAISE + 1;
+    if val ~= false then
+        raiseMsg( val, msg, ... );
+    end
+    
+    return val;
+end
+
 local function ifFalse( val, msg, ... )
     NRAISE = NRAISE + 1;
     if val == false then
@@ -93,6 +102,7 @@ local function ifFalse( val, msg, ... )
     
     return val;
 end
+
 
 local function ifNotEqual( a, b, msg, ... )
     NRAISE = NRAISE + 1;
@@ -107,6 +117,7 @@ for k,v in pairs({
     ifNil = ifNil,
     ifNotTrue = ifNotTrue,
     ifTrue = ifTrue,
+    ifNotFalse = ifNotFalse,
     ifFalse = ifFalse,
     ifNotEqual = ifNotEqual
 }) do
