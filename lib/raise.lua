@@ -66,6 +66,15 @@ local function ifNil( val, msg, ... )
 end
 
 
+local function ifNotTrue( val, msg, ... )
+    NRAISE = NRAISE + 1;
+    if val ~= true then
+        raiseMsg( val, msg, ... );
+    end
+    
+    return val;
+end
+
 local function ifTrue( val, msg, ... )
     NRAISE = NRAISE + 1;
     if val == true then
@@ -96,6 +105,7 @@ _G.raise = {};
 for k,v in pairs({
     ifNotNil = ifNotNil,
     ifNil = ifNil,
+    ifNotTrue = ifNotTrue,
     ifTrue = ifTrue,
     ifFalse = ifFalse,
     ifNotEqual = ifNotEqual
