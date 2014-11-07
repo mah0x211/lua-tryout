@@ -104,6 +104,13 @@ local function ifFalse( val, msg, ... )
 end
 
 
+local function ifEqual( a, b, msg, ... )
+    NRAISE = NRAISE + 1;
+    if a == b then
+        raiseMsg( { a = a, b = b == nil and 'nil' or b }, msg, ... );
+    end
+end
+
 local function ifNotEqual( a, b, msg, ... )
     NRAISE = NRAISE + 1;
     if a ~= b then
@@ -119,6 +126,7 @@ for k,v in pairs({
     ifTrue = ifTrue,
     ifNotFalse = ifNotFalse,
     ifFalse = ifFalse,
+    ifEqual = ifEqual,
     ifNotEqual = ifNotEqual
 }) do
     _G.raise[k] = v;
