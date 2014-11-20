@@ -2,7 +2,9 @@ local process = require('process');
 local path = require('path');
 local cl = require('ansicolors');
 
-raise.ifNil( arg[1], 'path not found' );
+if arg[1] == nil then
+    arg[1] = '.'
+end
 
 local function label( name )
     return cl('    %{yellow}%-15s%{reset}'):format( name );
