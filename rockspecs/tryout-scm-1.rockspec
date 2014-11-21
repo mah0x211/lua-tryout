@@ -15,6 +15,7 @@ dependencies = {
 build = {
     type = "builtin",
     modules = {
+        ["tryout.sandbox"] = "lib/sandbox.lua",
         ["tryout.raise"] = "lib/raise.lua",
         ["tryout.hooks"] = "lib/hooks.lua",
         ["tryout.workdir"] = "lib/workdir.lua",
