@@ -109,6 +109,8 @@ local function ifEqual( a, b, msg, ... )
     if a == b then
         raiseMsg( { a = a, b = b == nil and 'nil' or b }, msg, ... );
     end
+    
+    return a, b;
 end
 
 local function ifNotEqual( a, b, msg, ... )
@@ -116,7 +118,10 @@ local function ifNotEqual( a, b, msg, ... )
     if a ~= b then
         raiseMsg( { a = a, b = b == nil and 'nil' or b }, msg, ... );
     end
+
+    return a, b;
 end
+
 
 _G.raise = {};
 for k,v in pairs({
