@@ -23,3 +23,5 @@ for mod, list in pairs({
 end
 
 _G.TRYOUT_SANDBOX = SANDBOX;
+
+require('tryout.raise');
