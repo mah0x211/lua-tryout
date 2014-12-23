@@ -1,5 +1,11 @@
-local process = require('process');
-local path = require('path');
+local getcwd = require('process').getcwd;
+local chdir = require('process').chdir;
+local exists = require('path').exists;
+local stat = require('path').stat;
+local basename = require('path').basename;
+local dirname = require('path').dirname;
+local isReg = require('path').isReg;
+local isDir = require('path').isDir;
 local cl = require('ansicolors');
 
 if arg[1] == nil then
@@ -10,27 +16,27 @@ local function label( name )
     return cl('    %{yellow}%-15s%{reset}'):format( name );
 end
 
-local function chdir()
-    local rpath = raise.ifNil( path.exists( arg[1] ) ); 
-    local stat = raise.ifNil( path.stat( rpath ) );
+local function setcwd()
+    local rpath = raise.ifNil( exists( arg[1] ) ); 
+    local info = raise.ifNil( stat( rpath ) );
     local name;
     
-    if path.isReg( stat.mode ) then
+    if isReg( info.mode ) then
         raise.ifNil( rpath:find('^.+_try[.]lua$' ), 'invalid target file' );
         printf( '%s: %s', label('TARGET FILE'), rpath );
         name = rpath:match( '(.+)[.]lua$' );
         _G.TRYOUT_FILE = { 
             [1] = name,
-            [name] = path.basename( rpath )
+            [name] = basename( rpath )
         };
-        rpath = path.dirname( rpath );
+        rpath = dirname( rpath );
     else
-        raise.ifFalse( path.isDir( stat.mode ), '%q is invalid file', rpath );
+        raise.ifFalse( isDir( info.mode ), '%q is invalid file', rpath );
     end
 
     -- change dir
-    raise.ifNotNil( process.chdir( rpath ) );
-    printf( '%s: %s', label('WORKING DIR'), process.getcwd() );
+    raise.ifNotNil( chdir( rpath ) );
+    printf( '%s: %s', label('WORKING DIR'), getcwd() );
     _G.TRYOUT_DIR = rpath;
 end
 
@@ -39,7 +45,7 @@ local function setSearchPath()
     local pathz = {};
     
     -- set search path
-    package.path = '?.lua;' .. process.getcwd() .. '/?.lua;' .. package.path;
+    package.path = '?.lua;' .. getcwd() .. '/?.lua;' .. package.path;
     
     for line in package.path:gmatch('[^;]+') do
         pathz[#pathz+1] = line;
@@ -55,5 +61,5 @@ end
 
 
 printf( cl('%{cyan underline}ENVIRONMENTS:%{reset}') );
-chdir();
+setcwd();
 setSearchPath();

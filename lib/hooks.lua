@@ -1,6 +1,5 @@
 local inspect = require('util').inspect;
-local path = require('path');
-local MODULE_DIR = path.dirname( debug.getinfo( 1 ).short_src );
+local MODULE_DIR = require('path').dirname( debug.getinfo( 1 ).short_src );
 local PRINT_FN = print;
 local logstack = {};
 local unpack = unpack or table.unpack;

@@ -1,7 +1,6 @@
 local cl = require('ansicolors');
-local path = require('path');
-local process = require('process');
-local gettimeofday = process.gettimeofday;
+local readdir = require('path').readdir;
+local gettimeofday = require('process').gettimeofday;
 local sort = table.sort;
 local concat = table.concat;
 
@@ -35,7 +34,7 @@ local function getFiles()
         local name;
         
         targets = {};
-        for _, file in ipairs( path.readdir('./') ) do
+        for _, file in ipairs( readdir('./') ) do
             if not file:find( '^[.]' ) and file:find('_try[.]lua$' ) then
                 name = file:match( '(.+)[.]lua$' );
                 targets[#targets+1] = name;
