@@ -7,7 +7,8 @@ local NRAISE = 0;
 
 local function getInfo()
     local info = debug.getinfo( 4 );
-    local file = assert( io.open( info.short_src ) );
+    local filepath = string.gsub( info.source, '^@', '' );
+    local file = assert( io.open( filepath ) );
     local lineno = 1;
     
     for line in file:lines() do
