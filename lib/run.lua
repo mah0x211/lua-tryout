@@ -84,6 +84,9 @@ local function runTryFiles()
         cost = gettimeofday();
         ok, err = runOnSandbox( file );
         cost = gettimeofday() - cost;
+        -- cleanup child process
+        cleanupChild();
+        
         costAll = costAll + cost;
         ntry = raise.nraise();
         ntryAll = ntryAll + ntry;
