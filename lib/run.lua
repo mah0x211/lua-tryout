@@ -19,7 +19,7 @@ local function getFormats( targets )
     end
     
     fmt = '%%{underline}%f sec%%{reset} ';
-    fmtSuccess = '%%{yellow}%-' .. len .. 's %%{green}SUCCESS %d TEST(s)%%{reset} ' .. fmt;
+    fmtSuccess = '%%{yellow}%-' .. len .. 's %%{green}SUCCESS %3d TEST(s)%%{reset} ' .. fmt;
     fmtFailure = '%%{yellow}%-' .. len .. 's %%{red}FAILURE%%{reset} ' .. fmt .. '\n%%{magenta}%s';
     
     return fmtSuccess, fmtFailure;
@@ -109,9 +109,9 @@ local function runTryFiles()
 '==============================================================================' 
     );
     print( cl( ('%%{cyan}TIME: %f sec, TOTAL COST: %f sec\n'):format( sec, costAll ) ) );
-    print( cl( ('%%{green}PASS   : %d TEST(s)'):format( ntryAll ) ) );
-    print( cl( ('%%{green}SUCCESS: %d FILE(s)'):format( #success ) ) );
-    print( cl( ('%%{red}FAILURE: %d FILE(s)'):format( #failure ) ) );
+    print( cl( ('%%{green}PASS   : %3d TEST(s)'):format( ntryAll ) ) );
+    print( cl( ('%%{green}SUCCESS: %3d FILE(s)'):format( #success ) ) );
+    print( cl( ('%%{red}FAILURE: %3d FILE(s)'):format( #failure ) ) );
     print( concat( failure, '\n' ) );
     
     -- print perf rank
@@ -124,7 +124,7 @@ local function runTryFiles()
         );
         for _, v in ipairs( success ) do
             print(cl(
-                ('%%{green}%-10f sec, %d TEST(s)%%{reset} | %%{yellow}%s')
+                ('%%{green}%-10f sec, %3d TEST(s)%%{reset} | %%{yellow}%s')
                 :format( v.cost, v.ntry, v.file )
             ));
         end
