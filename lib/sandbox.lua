@@ -40,6 +40,27 @@ function SANDBOX.execChild( ... )
 end
 
 
+function SANDBOX.isolate( fn, ... )
+    local vals = { pcall( fn, ... ) };
+    local tail = 1;
+    local idx, v;
+    
+    if vals[1] == false then
+        return unpack( vals );
+    end
+    
+    table.remove( vals, 1 );
+    -- find last index
+    idx, v = next( vals );
+    while idx do
+        tail = idx;
+        idx, v = next( vals, idx );
+    end
+    
+    return unpack( vals, 1, tail );
+end
+
+
 -- export utility function
 for mod, list in pairs({
     process = {
