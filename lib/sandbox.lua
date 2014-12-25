@@ -42,14 +42,10 @@ end
 
 function SANDBOX.isolate( fn, ... )
     local vals = { pcall( fn, ... ) };
+    local ok = table.remove( vals, 1 );
     local tail = 1;
     local idx, v;
     
-    if vals[1] == false then
-        return unpack( vals );
-    end
-    
-    table.remove( vals, 1 );
     -- find last index
     idx, v = next( vals );
     while idx do
@@ -57,7 +53,7 @@ function SANDBOX.isolate( fn, ... )
         idx, v = next( vals, idx );
     end
     
-    return unpack( vals, 1, tail );
+    return ok, unpack( vals, 1, tail );
 end
 
 
