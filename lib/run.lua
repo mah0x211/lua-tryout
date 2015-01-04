@@ -114,7 +114,7 @@ local function runTryFiles()
     print( cl( ('%%{green}PASS   : %3d TEST(s)'):format( ntryAll ) ) );
     print( cl( ('%%{green}SUCCESS: %3d FILE(s)'):format( #success ) ) );
     print( cl( ('%%{red}FAILURE: %3d FILE(s)'):format( #failure ) ) );
-    print( concat( failure, '\n' ) );
+    print( concat( failure, '\n\n' ) );
     
     -- print perf rank
     if #success > 0 then
