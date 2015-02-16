@@ -1,4 +1,5 @@
 local inspect = require('util').inspect;
+local INSPECT_OPT = { depth = 0 };
 local CRLF2SPC = {
     ['\r'] = ' ',
     ['\n'] = ' '
@@ -107,17 +108,40 @@ end
 
 local function ifEqual( a, b, msg, ... )
     NRAISE = NRAISE + 1;
-    if a == b then
-        raiseMsg( { a = a, b = b == nil and 'nil' or b }, msg, ... );
+    if type( a ) == 'table' then
+        if type( b ) == 'table' and 
+           inspect( a, INSPECT_OPT ) == inspect( b, INSPECT_OPT ) then
+            raiseMsg({ 
+                a = a,
+                b = b
+            }, msg, ... );
+        end
+    elseif a == b then
+        raiseMsg({
+            a = a == nil and 'nil' or a,
+            b = b == nil and 'nil' or b
+        }, msg, ... );
     end
     
     return a, b;
 end
 
+
 local function ifNotEqual( a, b, msg, ... )
     NRAISE = NRAISE + 1;
-    if a ~= b then
-        raiseMsg( { a = a, b = b == nil and 'nil' or b }, msg, ... );
+    if type( a ) == 'table' then
+        if type( b ) ~= 'table' or 
+           inspect( a, INSPECT_OPT ) ~= inspect( b, INSPECT_OPT ) then
+            raiseMsg({
+                a = a,
+                b = b == nil and 'nil' or b
+            }, msg, ... );
+        end
+    elseif a ~= b then
+        raiseMsg({
+            a = a == nil and 'nil' or a,
+            b = b == nil and 'nil' or b
+        }, msg, ... );
     end
 
     return a, b;
