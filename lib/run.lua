@@ -3,6 +3,7 @@ local readdir = require('path').readdir;
 local gettimeofday = require('process').gettimeofday;
 local sort = table.sort;
 local concat = table.concat;
+local evalfile = require('util').evalfile;
 
 local function getFormats( targets )
     local fmtSuccess, fmtFailure;
@@ -48,7 +49,7 @@ end
 
 
 local function runOnSandbox( rpath )
-    local fn, err = loadfile( rpath, 't', TRYOUT_SANDBOX );
+    local fn, err = evalfile( rpath, TRYOUT_SANDBOX );
     
     if err then
         return false, err;
