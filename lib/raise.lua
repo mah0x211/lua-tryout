@@ -45,7 +45,7 @@ local function raiseMsg( val, msg, ... )
         'raise from:',
         '\t' .. info.caller:gsub('^%s+',''),
         'message: ',
-        '\t' .. msg
+        '\t' .. inspect( msg )
     }, '\n' ), lv );
 end
 
