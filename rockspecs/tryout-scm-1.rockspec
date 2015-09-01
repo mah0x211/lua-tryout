@@ -10,7 +10,12 @@ description = {
     maintainer = "Masatoshi Teruya"
 }
 dependencies = {
-    "lua >= 5.1"
+    "lua >= 5.1",
+    "ansicolors >= 1.0.2",
+    "path >= 1.0.4",
+    "process >= 1.4.2",
+    "signal >= 1.0.0",
+    "util >= 1.4.1"
 }
 build = {
     type = "builtin",
