@@ -1,4 +1,7 @@
 local inspect = require('util').inspect;
+local strsplit = require('util.string').split;
+local traceback = debug.traceback;
+local tblconcat = table.concat;
 local INSPECT_OPT = { depth = 0 };
 local CRLF2SPC = {
     ['\r'] = ' ',
@@ -30,7 +33,20 @@ local function raiseMsg( val, msg, ... )
     local lv = 3;
     local info = getInfo();
     local raiseof;
-    
+    local backtrace = {};
+    local lines = strsplit( traceback(), '[\r\n]+' )
+
+    -- remove lines of test module
+    for i = 1, #lines do
+        if lines[i]:find( 'runOnSandbox', 1, true ) then
+            break;
+        elseif not lines[i]:find('/tryout/', 1, true ) then
+            backtrace[#backtrace + 1] = lines[i];
+        end
+    end
+    backtrace = tblconcat( backtrace, '\n' );
+
+    -- convert CRLF to space
     val = inspect( val ):gsub( '[\r\n]', CRLF2SPC ):gsub( '[ ]+', ' ' );
     raiseof = ('raise %s on %q'):format( info.name, val );
     
@@ -40,12 +56,13 @@ local function raiseMsg( val, msg, ... )
         msg = msg:format( ... );
     end
     
-    error( table.concat({
+    error( tblconcat({
         raiseof,
         'raise from:',
         '\t' .. info.caller:gsub('^%s+',''),
         'message: ',
-        '\t' .. inspect( msg )
+        '\t' .. inspect( msg ),
+        backtrace
     }, '\n' ), lv );
 end
 
