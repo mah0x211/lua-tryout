@@ -19,7 +19,7 @@ local function getFormats( targets )
     end
     
     fmt = '%%{underline}%f sec%%{reset} ';
-    fmtSuccess = '%%{yellow}%-' .. len .. 's %%{green}SUCCESS %3d TEST(s)%%{reset} ' .. fmt;
+    fmtSuccess = '%%{yellow}%-' .. len .. 's %%{green}SUCCESS #%-9d%%{reset} ' .. fmt;
     fmtFailure = '%%{yellow}%-' .. len .. 's %%{red}FAILURE%%{reset} ' .. fmt .. '\n%%{magenta}%s';
     
     return fmtSuccess, fmtFailure;
@@ -100,7 +100,7 @@ local function runTryFiles()
             };
             print( cl( fmtSuccess:format( file, ntry, cost ) ) );
         else
-            err = ('pass: %d test(s)\n%s'):format( ntry, err );
+            err = ('pass: %-9d test(s)\n%s'):format( ntry, err );
             err = addPadding( err );
             failure[#failure+1] = err;
             print( cl( fmtFailure:format( file, cost, err ) ) );
@@ -112,9 +112,9 @@ local function runTryFiles()
 '==============================================================================' 
     );
     print( cl( ('%%{cyan}TIME: %f sec, TOTAL COST: %f sec\n'):format( sec, costAll ) ) );
-    print( cl( ('%%{green}PASS   : %3d TEST(s)'):format( ntryAll ) ) );
-    print( cl( ('%%{green}SUCCESS: %3d FILE(s)'):format( #success ) ) );
-    print( cl( ('%%{red}FAILURE: %3d FILE(s)'):format( #failure ) ) );
+    print( cl( ('%%{green}PASS TEST(s)   : #%-9d '):format( ntryAll ) ) );
+    print( cl( ('%%{green}SUCCESS FILE(s): #%-9d'):format( #success ) ) );
+    print( cl( ('%%{red}FAILURE FILE(s): #%-9d'):format( #failure ) ) );
     print( concat( failure, '\n\n' ) );
     
     -- print perf rank
@@ -127,7 +127,7 @@ local function runTryFiles()
         );
         for _, v in ipairs( success ) do
             print(cl(
-                ('%%{green}%-10f sec, %3d TEST(s)%%{reset} | %%{yellow}%s')
+                ('%%{green}%-10f sec, %9d TEST(s)%%{reset} | %%{yellow}%s')
                 :format( v.cost, v.ntry, v.file )
             ));
         end
