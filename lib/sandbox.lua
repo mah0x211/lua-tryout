@@ -63,7 +63,8 @@ for mod, list in pairs({
         'sleep'
     },
     util = {
-        'inspect'
+        'inspect',
+        'is'
     }
 }) do
     mod = require(mod);
